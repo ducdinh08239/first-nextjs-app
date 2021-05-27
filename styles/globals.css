@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -13,4 +17,17 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.trns-text-black-stroke {
+  -webkit-text-stroke: 2px black;
+  color: rgba(255, 255, 255, 0);
+}
+.trns-text-gray-stroke {
+  -webkit-text-stroke: 1px rgb(211, 211, 211);
+  color: rgba(255, 255, 255, 0);
+}
+.underline-custom {
+  border-bottom: 3px solid black;
+  line-height: 10px;
 }
