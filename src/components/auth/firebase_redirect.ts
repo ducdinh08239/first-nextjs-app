@@ -9,49 +9,27 @@ import { setUserCookie, getUserFromCookie } from './userCookies'
 initFirebase();
 
 const googleRedirect = async () => {
-    var provider = await new firebase.auth.GoogleAuthProvider();
-    await firebase.auth()
-        .signInWithPopup(provider)
-        .then(async (result) => {
-            // The signed-in user info.
-            var user = await result.user;
+    var provider = new firebase.auth.GoogleAuthProvider();
+    const result = await firebase.auth().signInWithPopup(provider)
+    const user = result.user
 
-            if (user) {
-                // await console.log(getUserFromCookie());
-                var db = await firebase.firestore();
-                await db
-                    .collection("user").where("uid", "==", `${user.uid}`)
-                    .get()
-                    .then(async (querySnapshot) => {
-                        await querySnapshot.forEach(async (doc) => {    
-                            await setUserCookie(doc.data());
-                        });
-                        if (querySnapshot.docs.length > 0) {
-                            await Router.push('/');
-                            await window.location.reload();
-                        } else {
-                            Router.push('/info-complete')
-                        }
-                    })
-                    .catch((error) => {
-                        console.log("Error getting documents: ", error);
-                    });
-
-                // await Router.push('/')
-            }
-
-            // ...
-        }).catch((error) => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
+    if (user) {
+        // await console.log(getUserFromCookie());
+        var db = firebase.firestore();
+        const querySnapshot = await db
+            .collection("user").where("uid", "==", `${user.uid}`)
+            .get()
+        querySnapshot.forEach(async (doc) => {
+            setUserCookie(doc.data());
         });
-
+        
+        if (querySnapshot.docs.length > 0) {
+            await Router.push('/');
+            window.location.reload();
+        } else {
+            Router.push('/info-complete')
+        }
+    }
 }
 
 export default googleRedirect;

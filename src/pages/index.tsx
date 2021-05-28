@@ -11,18 +11,19 @@ import WriteFirebase from '../components/firestore/write'
 import ReadFirebase from '../components/firestore/read'
 import Log from "../components/log"
 import { getUserFromCookie } from '../components/auth/userCookies'
-var userData = getUserFromCookie();
-console.log(userData);
-
-initFirebase();
+import { useUserContext } from '../context/userContext'
 
 const Home: React.FC = () => {
-  var a = 0;
+  initFirebase();
+  const user = useUserContext();
+
+  // console.log(user, '==> index');
+
   return (
     <div>
       <Head>
-        {userData && userData.short_name ? (
-          <title>Portfolio Of {userData.short_name}</title>
+        {user && user.short_name ? (
+          <title>Portfolio Of {user.short_name}</title>
         ) : (
           <title>Portfolio Of Someone</title>
         )}
@@ -30,16 +31,22 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {userData && userData.short_name ? (
-            <Banner shortName={userData.short_name} profession={userData.profession}/>
-
+        {user && user.short_name ? (
+          <>
+            <Banner shortName={user.short_name} profession={user.profession} />
+            <About full_name={user.full_name} profession={user.profession} />
+            <Portfolio />
+            <Testimonial />
+          </>
         ) : (
+          <>
             <Banner />
+            <About />
+            <Portfolio />
+            <Testimonial />
+          </>
         )
-      }
-      <About />
-        <Portfolio />
-        <Testimonial />
+        }
         <Log />
       </Layout>
     </div>

@@ -1,7 +1,16 @@
 import type { VFC } from "react";
 import Image from 'next/image'
 
-const About: VFC = () => {
+interface props {
+    full_name: string
+    profession: string
+}
+
+const About: VFC<any> = (props:props) => {
+    let {full_name, profession} = props
+    let userFullName = full_name ? full_name : "Full name of some one"
+    let userProfession = profession ? profession : "Some profession && ..."
+    
     return (
         <section className="about container mx-auto mt-44" id="about">
             <div className="grid grid-cols-2">
@@ -21,13 +30,13 @@ const About: VFC = () => {
                             <br />
                             <div className="uppercase -ml-32 font-extrabold text-4xl h-full -mt-16">
                                 <span className="">
-                                    Dinh Viet Viet Duc
+                                    {userFullName}
                             </span>
                             </div>
                         </div>
                         <br />
                         <span className="-ml-32 font-bold">
-                            Creative Web & App Developer
+                            {userProfession}
                         </span>
                     </div>
                     <div className="-ml-32">

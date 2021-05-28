@@ -25,8 +25,16 @@ export const setUserCookie = (user) => {
 
 export const removeUserCookie = () => {
     firebase.auth().signOut().then(() => {
-        window.location.reload();
-    })
+        // window.location.reload();
+        console.log('sign out ok');
+        
+    }).catch((error) => {
+        // Handle Errors here.
+        console.log(error, 'userCookies ==>');
+        
+        var errorCode = error.code;
+        // ...
+    });
     cookies.remove('my_auth')
     Router.push('/')
 }
