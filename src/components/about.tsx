@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const About: VFC = () => {
     return (
-        <section className="about container mx-auto mt-44">
+        <section className="about container mx-auto mt-44" id="about">
             <div className="grid grid-cols-2">
                 <div className="about-avatar">
                     <Image className="rounded-md"

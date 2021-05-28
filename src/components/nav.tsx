@@ -4,11 +4,11 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 const navItems = [
-    { href: "/home", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/new", label: "New" },
-    { href: "/contact", label: "Contact" },
+    { href: "/#home", label: "Home" },
+    { href: "/#about", label: "About" },
+    { href: "/#portfolio", label: "Portfolio" },
+    { href: "/#new", label: "New" },
+    { href: "/#contact", label: "Contact" },
 ]
 // console.log(location.pathname);
 const Nav: VFC = () => {
@@ -16,7 +16,7 @@ const Nav: VFC = () => {
     const router = useRouter()
 
     return (
-        <div className="shadow w-full">
+        <div className="shadow w-full fixed z-50 bg-white">
 
             <nav className="mx-auto flex justify-between bg-transparent container">
                 <div className="nav-logo">

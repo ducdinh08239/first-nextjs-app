@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Portfolio: VFC = () => {
     return (
-        <section className="portfolio py-32 bg-gray-100">
+        <section className="portfolio py-32 bg-gray-100" id="portfolio">
             <div className="container mx-auto">
                 <div className="">
                     <span className="uppercase trns-text-gray-stroke text-9xl font-extrabold tracking-wider">

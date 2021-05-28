@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Testimonial: VFC = () => {
     return (
-        <section className="testimonial my-32">
+        <section className="testimonial my-32" id="testimonial">
             <div className="container mx-auto">
                 <div className="">
                     <span className="uppercase trns-text-gray-stroke text-9xl font-extrabold tracking-wider">

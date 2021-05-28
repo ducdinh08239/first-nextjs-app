@@ -1,24 +1,36 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import type { VFC } from "react";
+import initFirebase from '../firebase/initFirebase'
+import Router from 'next/router'
+import { setUserCookie, removeUserCookie } from '../auth/userCookies'
 
-const WriteToCloudFirestore = () => {
+initFirebase()
+
+const WriteToCloudFirestore = async (userData) => {
+    let userInfo = {
+        uid: userData.uid,
+        short_name: userData.short_name,
+        full_name: userData.full_name,
+        profession: userData.profession,
+        email: userData.email,
+        address: userData.address
+    }
     try {
-        firebase
+        await firebase
             .firestore()
             .collection('user')
-            .add({
-                name: 'Duc Dinh',
-                age: 20,
-                profession: ['frontend', 'backend']
-            })
+            .add(userInfo)
             .then(
-                (data) => {
+                async () => {
                     // console.log(data);
-                    console.log("Sent");
+                    console.log('sent OK');
+                    await setUserCookie(userInfo)
+                    await Router.push('/')
+                    await window.location.reload()
                 }
             )
-            
+
     } catch (error) {
         console.log(error);
         alert(error)

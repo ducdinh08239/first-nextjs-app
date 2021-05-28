@@ -1,20 +1,28 @@
 import type { VFC } from "react";
 import Image from 'next/image'
 
-const Banner: VFC = () => {
+interface props {
+    shortName: string
+    profession: string
+}
+
+const Banner: VFC<any> = (props:props) => {
+    let {shortName, profession} = props
+    let userShortName = shortName ? shortName : "Any one"
+    let userProfession = profession ? profession : "Some profession && ..."
     return (
-        <section className="banner">
+        <section className="banner" id="home">
             <div className="grid grid-cols-3">
                 <div className="col-span-1">
                     <div className="flex mt-52">
-                        <div className="w-full text-left text-9xl font-extrabold uppercase ml-48 -mr-96 z-50 tracking-wide">
+                        <div className="w-full text-left text-9xl font-extrabold uppercase ml-48 -mr-96 z-40 tracking-wide">
                             <span className="trns-text-black-stroke">Power<span className="ml-8">By</span></span>
                             <div className="my-5"></div>
-                            <span className="tracking-normal">Duc Dinh</span>
+                            <span className="tracking-normal">{userShortName}</span>
                     </div>
                     </div>
                     <div className="w-full text-left text-xl ml-52 mt-10">
-                        Creative Web & App Developer
+                        {userProfession}
                     </div>
                 </div>
                 <div className="col-span-2">

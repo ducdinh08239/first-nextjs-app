@@ -17,6 +17,4 @@ export default function initFirebase(){
         firebase.initializeApp(config)
     }
     console.log('Firebase status: ok');
-    
-
 }
