@@ -1,7 +1,75 @@
-import type { VFC } from "react";
+import { useEffect, useState, VFC } from "react";
 import Image from 'next/image'
 
 const Testimonial: VFC = () => {
+
+    let arr = [
+        {
+            id: "1",
+            name: "Abby",
+            position: "Architecture",
+            avatar_url: "/images/client2_circle.jpg",
+            content: "Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with."
+        },
+        {
+            id: "2",
+            name: "Lacey",
+            position: "Design",
+            avatar_url: "/images/client3_circle.jpg",
+            content: "The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. "
+        },
+        {
+            id: "3",
+            name: "Haider",
+            position: "Elegant",
+            avatar_url: "/images/client4_circle.jpeg",
+            content: "Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template."
+        }
+    ]
+
+    // console.log(arr[0]);
+    
+    const [testimonial, setTestimonial] = useState({
+        id: "1",
+        name: "Abby",
+        position: "Architecture",
+        avatar_url: "/images/client2_circle.jpg",
+        content: "Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with."
+    })
+
+    // const onloadOne: any = () => {
+    //     setTestimonial(arr[0])
+    // }
+    // //@ts-ignore
+    // window.onload = onloadOne();
+
+    const handleImage = (e) => {
+        arr.map(arr_item => {
+            if (arr_item.id == e.target.id) {
+                setTestimonial({
+                    id: e.target.id,
+                    name: arr_item.name,
+                    position: arr_item.position,
+                    avatar_url: arr_item.avatar_url,
+                    content: arr_item.content
+                })
+            }
+        })
+    }
+
+    useEffect(() => {
+        document.querySelectorAll('img.avatar').forEach((e) => {
+            if (e.id == testimonial.id) {
+                e.className = `avatar rounded-lg opacity-100`
+            }
+            else {
+                e.className = `avatar rounded-lg opacity-50`
+            }
+
+        });
+
+    }, [testimonial])
+
     return (
         <section className="testimonial my-32" id="testimonial">
             <div className="container mx-auto">
@@ -24,22 +92,22 @@ const Testimonial: VFC = () => {
                                     &rdquo;
                                 </div>
                                 <div className="pr-32 leading-8 -mt-8">
-                                    Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.
+                                    {testimonial.content}
                                 </div>
-                                <div className="grid grid-cols-2 w-1/4 mt-8">
+                                <div className="grid grid-cols-2 w-2/4 mt-8">
                                     <div className="">
                                         <Image className="rounded-full"
-                                            src="/images/client2_circle.jpg"
+                                            src={`${testimonial.avatar_url}`}
                                             width={70}
                                             height={70}
                                         />
                                     </div>
-                                    <div className="pt-2">
+                                    <div className="pt-2 -ml-24">
                                         <div className="font-bold">
-                                            Steve Collins
+                                            {testimonial.name}
                                         </div>
                                         <div className="font-light">
-                                            Artel Corp.
+                                            {testimonial.position}
                                         </div>
                                     </div>
                                 </div>
@@ -47,25 +115,32 @@ const Testimonial: VFC = () => {
                         </div>
                         <div className="grid grid-cols-2">
                             <div className="ml-12">
-                                <Image className="rounded-lg"
+                                <Image
+                                    className='avatar'
                                     src="/images/client2.jpg"
                                     width={280}
                                     height={370}
+                                    onClick={handleImage}
+                                    id='1'
                                 />
                             </div>
                             <div className="grid-rows-2">
                                 <div className="mb-10">
-                                    <Image className="rounded-lg"
+                                    <Image className='avatar'
                                         src="/images/client3.jpg"
                                         width={280}
                                         height={260}
+                                        onClick={handleImage}
+                                        id='2'
                                     />
                                 </div>
                                 <div className="">
-                                    <Image className="rounded-lg"
+                                    <Image className='avatar'
                                         src="/images/client4.jpeg"
                                         width={280}
                                         height={260}
+                                        onClick={handleImage}
+                                        id='3'
                                     />
                                 </div>
                             </div>

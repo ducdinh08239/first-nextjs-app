@@ -21,16 +21,10 @@ const WriteToCloudFirestore = async (userData) => {
             .firestore()
             .collection('user')
             .add(userInfo)
-            .then(
-                async () => {
-                    // console.log(data);
-                    console.log('sent OK');
-                    await setUserCookie(userInfo)
-                    await Router.push('/')
-                    await window.location.reload()
-                }
-            )
-
+        console.log('sent OK');
+        await setUserCookie(userInfo)
+        await Router.push('/')
+        await window.location.reload()
     } catch (error) {
         console.log(error);
         alert(error)

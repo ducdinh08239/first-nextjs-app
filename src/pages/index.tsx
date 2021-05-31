@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Layout from '../components/layout'
 import React from 'react'
 import Banner from "../components/banner";
@@ -7,10 +6,7 @@ import About from "../components/about";
 import Portfolio from "../components/portfolio";
 import Testimonial from "../components/testimonial";
 import initFirebase from '../components/firebase/initFirebase';
-import WriteFirebase from '../components/firestore/write'
-import ReadFirebase from '../components/firestore/read'
 import Log from "../components/log"
-import { getUserFromCookie } from '../components/auth/userCookies'
 import { useUserContext } from '../context/userContext'
 
 const Home: React.FC = () => {
@@ -34,18 +30,16 @@ const Home: React.FC = () => {
           <>
             <Banner shortName={user.short_name} profession={user.profession} />
             <About full_name={user.full_name} profession={user.profession} />
-            <Portfolio />
-            <Testimonial />
           </>
         ) : (
           <>
             <Banner />
             <About />
-            <Portfolio />
-            <Testimonial />
           </>
         )
         }
+        <Portfolio />
+        <Testimonial />
         <Log />
       </Layout>
     </div>
