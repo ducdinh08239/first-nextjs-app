@@ -23,8 +23,8 @@ export const setUserCookie = (user) => {
     })
 }
 
-export const removeUserCookie = () => {
-    firebase.auth().signOut().then(() => {
+export const removeUserCookie = async() => {
+    await firebase.auth().signOut().then(() => {
         // window.location.reload();
         console.log('sign out ok');
         
@@ -35,6 +35,6 @@ export const removeUserCookie = () => {
         var errorCode = error.code;
         // ...
     });
-    cookies.remove('my_auth')
-    Router.push('/')
+    await cookies.remove('my_auth')
+    await window.location.reload()
 }

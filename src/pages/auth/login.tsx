@@ -1,8 +1,8 @@
 import type { VFC } from "react";
 import Image from 'next/image'
 import googleRedirect from '../../components/auth/firebase_redirect'
-
 const Login: VFC = () => {
+    
     return (
         <div className="text-5xl font-bold text-center container mx-auto z-50">
             Log In With

@@ -16,7 +16,6 @@ import { useUserContext } from '../context/userContext'
 const Home: React.FC = () => {
   initFirebase();
   const user = useUserContext();
-
   // console.log(user, '==> index');
 
   return (

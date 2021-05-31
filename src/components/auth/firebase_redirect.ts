@@ -6,14 +6,16 @@ import 'firebase/firestore'
 import Router from 'next/router'
 import { setUserCookie, getUserFromCookie } from './userCookies'
 
-initFirebase();
-
 const googleRedirect = async () => {
+    
+    initFirebase();
+
     var provider = new firebase.auth.GoogleAuthProvider();
     const result = await firebase.auth().signInWithPopup(provider)
     const user = result.user
 
     if (user) {
+        setUserCookie(user.uid);
         // await console.log(getUserFromCookie());
         var db = firebase.firestore();
         const querySnapshot = await db
@@ -30,6 +32,8 @@ const googleRedirect = async () => {
             Router.push('/info-complete')
         }
     }
+    // console.log('a');
+    
 }
 
 export default googleRedirect;
