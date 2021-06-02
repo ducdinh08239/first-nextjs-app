@@ -14,12 +14,13 @@ const WriteToCloudFirestore = async (userData) => {
         full_name: userData.full_name,
         profession: userData.profession,
         email: userData.email,
-        address: userData.address
+        address: userData.address,
+        avatar_url: userData.avatar_url
     }
     try {
         await firebase
             .firestore()
-            .collection('user')
+            .collection('users')
             .add(userInfo)
         console.log('sent OK');
         await setUserCookie(userInfo)

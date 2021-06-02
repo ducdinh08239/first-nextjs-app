@@ -5,12 +5,10 @@ import Banner from "../components/banner";
 import About from "../components/about";
 import Portfolio from "../components/portfolio";
 import Testimonial from "../components/testimonial";
-import initFirebase from '../components/firebase/initFirebase';
 import Log from "../components/log"
 import { useUserContext } from '../context/userContext'
 
 const Home: React.FC = () => {
-  initFirebase();
   const user = useUserContext();
   // console.log(user, '==> index');
 
@@ -29,7 +27,7 @@ const Home: React.FC = () => {
         {user && user.short_name ? (
           <>
             <Banner shortName={user.short_name} profession={user.profession} />
-            <About full_name={user.full_name} profession={user.profession} />
+            <About full_name={user.full_name} profession={user.profession} avatar_url={user.avatar_url}/>
           </>
         ) : (
           <>

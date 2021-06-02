@@ -11,7 +11,7 @@ const ReadFromCloudFirestore = async (uid) => {
             try {
                 firebase
                     .firestore()
-                    .collection('user')
+                    .collection('users')
                     .doc(doc.id)
                     .onSnapshot((doc) => {
                         doc.data();

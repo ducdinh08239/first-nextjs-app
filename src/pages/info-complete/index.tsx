@@ -2,20 +2,55 @@ import type { VFC } from "react";
 import Image from 'next/image'
 import writeData from '../../components/firestore/write'
 import { getUserFromCookie } from '../../components/auth/userCookies'
+import firebase from 'firebase/app'
+import 'firebase/storage'
 
 const InfoComplete: VFC = () => {
     const infoComplete = async (e) => {
         await e.preventDefault()
-        var entireForm = await e.target;
-        var userData = await {
-            uid: getUserFromCookie(),
-            short_name: entireForm.short_name.value,
-            full_name: entireForm.full_name.value,
-            profession: entireForm.profession.value,
-            email: entireForm.email.value,
-            address: entireForm.address.value
-        }
-        await writeData(userData);
+
+        //@ts-ignore
+        let imageValue = document.getElementById('uploadFile').files[0]
+        const storage = firebase.storage().ref('images/' + imageValue.name);
+        const task = storage.put(imageValue);
+
+        var image_url;
+
+        task.on('state_changed',
+            (snapshot) => {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                  case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                  case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+                }
+            },
+            (error) => {
+                console.log(error);
+
+            },
+            () => {
+                task.snapshot.ref.getDownloadURL().then( async (downloadURL) => {
+                    image_url = await downloadURL;
+                    var entireForm = await e.target;
+                    var userData = await {
+                        uid: getUserFromCookie(),
+                        short_name: entireForm.short_name.value,
+                        full_name: entireForm.full_name.value,
+                        profession: entireForm.profession.value,
+                        email: entireForm.email.value,
+                        address: entireForm.address.value,
+                        avatar_url: image_url
+                    }
+                    await writeData(userData);
+                });
+            }
+        )
+        
     }
 
     return (
@@ -38,28 +73,37 @@ const InfoComplete: VFC = () => {
                             Full Name
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="full_name" type="text" placeholder="Ex: Dinh Viet Viet Duc" />
-                       
+
                     </div>
+
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="">
+                            Avatar
+                        </label>
+                        <input type='file' id='uploadFile'/>
+
+                    </div>
+
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="">
                             Profession
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="profession" type="text" placeholder="Ex: Web Developer & Engineer" />
-                       
+
                     </div>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="">
                             Email
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Ex: ducdinh@gmail.com" />
-                       
+
                     </div>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="">
                             Address
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="address" type="text" placeholder="Ex: Ha Noi, Xuan Phuong, ..." />
-                       
+
                     </div>
                     <div className="flex items-center justify-between">
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

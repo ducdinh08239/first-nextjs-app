@@ -7,24 +7,22 @@ import Router from 'next/router'
 import { setUserCookie, getUserFromCookie } from './userCookies'
 
 const googleRedirect = async () => {
-    
-    initFirebase();
-
+    // initFirebase();
     var provider = new firebase.auth.GoogleAuthProvider();
     const result = await firebase.auth().signInWithPopup(provider)
     const user = result.user
-
+    // console.log(firebase.auth());
     if (user) {
         setUserCookie(user.uid);
         // await console.log(getUserFromCookie());
         var db = firebase.firestore();
         const querySnapshot = await db
-            .collection("user").where("uid", "==", `${user.uid}`)
+            .collection("users").where("uid", "==", `${user.uid}`)
             .get()
         querySnapshot.forEach(async (doc) => {
             setUserCookie(doc.data());
         });
-        
+
         if (querySnapshot.docs.length > 0) {
             await Router.push('/');
             window.location.reload();
@@ -33,7 +31,7 @@ const googleRedirect = async () => {
         }
     }
     // console.log('a');
-    
+
 }
 
 export default googleRedirect;

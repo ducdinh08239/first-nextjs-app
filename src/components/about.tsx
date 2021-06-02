@@ -4,22 +4,23 @@ import Image from 'next/image'
 interface props {
     full_name: string
     profession: string
+    avatar_url: string
 }
 
 const About: VFC<any> = (props:props) => {
-    let {full_name, profession} = props
+    let {full_name, profession, avatar_url} = props
     let userFullName = full_name ? full_name : "Full name of some one"
     let userProfession = profession ? profession : "Some profession && ..."
+    let userAvatar = avatar_url ? avatar_url : "/images/about.jpg"
+
+    console.log(userAvatar);
+    
     
     return (
         <section className="about container mx-auto mt-44" id="about">
             <div className="grid grid-cols-2">
                 <div className="about-avatar">
-                    <Image className="rounded-md"
-                        src="/images/about.jpg"
-                        width={518}
-                        height={477}
-                    />
+                    <img src={`${userAvatar}`} width="518px" height="477px" className="rounded-md" />
                 </div>
                 <div className="about-content">
                     <div className="about-title">

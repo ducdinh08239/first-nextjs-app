@@ -8,7 +8,7 @@ interface props {
 
 const Banner: VFC<any> = (props:props) => {
     let {shortName, profession} = props
-    let userShortName = shortName ? shortName : "Any one"
+    let userShortName = shortName ? shortName : "Duc Dinh"
     let userProfession = profession ? profession : "Some profession && ..."
     return (
         <section className="banner" id="home">
@@ -18,7 +18,7 @@ const Banner: VFC<any> = (props:props) => {
                         <div className="w-full text-left text-9xl font-extrabold uppercase ml-48 -mr-96 z-40 tracking-wide">
                             <span className="trns-text-black-stroke">Power<span className="ml-8">By</span></span>
                             <div className="my-5"></div>
-                            <span className="tracking-normal">{userShortName}</span>
+                            <span className="tracking-tighter">{userShortName}</span>
                     </div>
                     </div>
                     <div className="w-full text-left text-xl ml-52 mt-10">
