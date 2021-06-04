@@ -4,7 +4,11 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { getUserFromCookie, removeUserCookie } from '../components/auth/userCookies'
 
-const Log: VFC = () => {
+interface props {
+    doc_id?: string;
+}
+
+const Log: VFC<props> = (props) => {
 
     return (
         <>
@@ -20,7 +24,7 @@ const Log: VFC = () => {
                 </Link>
             ) : (
                 <div className="fixed right-10 bottom-10">
-                    <Link href="/auth/setting">
+                    <Link href={`/info-edit/${props.doc_id}`}>
                         <a className="">
                             <Image className="shadow-2xl" title="Setting"
                                 src="/images/settings.png"

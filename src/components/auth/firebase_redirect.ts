@@ -19,8 +19,13 @@ const googleRedirect = async () => {
         const querySnapshot = await db
             .collection("users").where("uid", "==", `${user.uid}`)
             .get()
+        var docId;
         querySnapshot.forEach(async (doc) => {
-            setUserCookie(doc.data());
+            docId = doc.id
+            setUserCookie({
+                ...doc.data(),
+                docId: doc.id
+            });
         });
 
         if (querySnapshot.docs.length > 0) {

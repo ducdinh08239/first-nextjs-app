@@ -2,9 +2,9 @@ import type { VFC } from "react";
 import Image from 'next/image'
 
 interface props {
-    full_name: string
-    profession: string
-    avatar_url: string
+    full_name?: string
+    profession?: string
+    avatar_url?: string
 }
 
 const About: VFC<any> = (props:props) => {
@@ -13,9 +13,6 @@ const About: VFC<any> = (props:props) => {
     let userProfession = profession ? profession : "Some profession && ..."
     let userAvatar = avatar_url ? avatar_url : "/images/about.jpg"
 
-    console.log(userAvatar);
-    
-    
     return (
         <section className="about container mx-auto mt-44" id="about">
             <div className="grid grid-cols-2">

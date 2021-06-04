@@ -1,21 +1,21 @@
 import type { VFC } from "react";
 import Image from 'next/image'
-import writeData from '../../components/firestore/write'
+import writeData from '../../components/firestore/create'
 import { getUserFromCookie } from '../../components/auth/userCookies'
 import firebase from 'firebase/app'
 import 'firebase/storage'
+import * as admin from "firebase-admin";
+
+
 
 const InfoComplete: VFC = () => {
     const infoComplete = async (e) => {
         await e.preventDefault()
-
         //@ts-ignore
-        let imageValue = document.getElementById('uploadFile').files[0]
+        let imageValue = document.getElementById('uploadFile').files[0]        
         const storage = firebase.storage().ref('images/' + imageValue.name);
         const task = storage.put(imageValue);
-
         var image_url;
-
         task.on('state_changed',
             (snapshot) => {
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;

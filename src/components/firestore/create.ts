@@ -3,7 +3,7 @@ import 'firebase/firestore'
 import type { VFC } from "react";
 import initFirebase from '../firebase/initFirebase'
 import Router from 'next/router'
-import { setUserCookie, removeUserCookie } from '../auth/userCookies'
+import { setUserCookie } from '../auth/userCookies'
 
 initFirebase()
 
@@ -18,12 +18,14 @@ const WriteToCloudFirestore = async (userData) => {
         avatar_url: userData.avatar_url
     }
     try {
-        await firebase
+        const newUser = await firebase
             .firestore()
             .collection('users')
             .add(userInfo)
-        console.log('sent OK');
-        await setUserCookie(userInfo)
+        await setUserCookie({
+            ...userInfo,
+            docId: newUser.id
+        })
         await Router.push('/')
         await window.location.reload()
     } catch (error) {

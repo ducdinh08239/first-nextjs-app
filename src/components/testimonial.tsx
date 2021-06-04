@@ -1,5 +1,6 @@
 import { useEffect, useState, VFC } from "react";
 import Image from 'next/image'
+import { isFunction } from "util";
 
 const Testimonial: VFC = () => {
 
@@ -28,20 +29,14 @@ const Testimonial: VFC = () => {
     ]
 
     // console.log(arr[0]);
-    
-    const [testimonial, setTestimonial] = useState({
-        id: "1",
-        name: "Abby",
-        position: "Architecture",
-        avatar_url: "/images/client2_circle.jpg",
-        content: "Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with.Awesome template, well written code and looks great on any platform. The customer support is very helpful and as huge asset to this template. Overall a good design, that I am quite happy with."
-    })
 
-    // const onloadOne: any = () => {
-    //     setTestimonial(arr[0])
-    // }
-    // //@ts-ignore
-    // window.onload = onloadOne();
+    const [testimonial, setTestimonial] = useState({
+        id: arr[0].id,
+        name: arr[0].name,
+        position: arr[0].position,
+        avatar_url: arr[0].avatar_url,
+        content: arr[0].content
+    })
 
     const handleImage = (e) => {
         arr.map(arr_item => {
@@ -58,16 +53,15 @@ const Testimonial: VFC = () => {
     }
 
     useEffect(() => {
-        document.querySelectorAll('img.avatar').forEach((e) => {
-            if (e.id == testimonial.id) {
-                e.className = `avatar rounded-lg opacity-100`
-            }
-            else {
-                e.className = `avatar rounded-lg opacity-50`
-            }
+            document.querySelectorAll('img.avatar').forEach((e) => {
+                if (e.id == testimonial.id) {
+                    e.className = `avatar rounded-lg opacity-100`
+                }
+                else {
+                    e.className = `avatar rounded-lg opacity-50`
+                }
 
-        });
-
+            });
     }, [testimonial])
 
     return (

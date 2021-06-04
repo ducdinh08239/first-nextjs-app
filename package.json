@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "@geist-ui/react": "^2.1.5",
+    "@google-cloud/storage": "^5.8.5",
     "firebase": "^8.6.3",
-    "firebase-admin": "^9.8.0",
+    "firebase-admin": "^9.9.0",
     "js-cookie": "^2.2.1",
     "next": "10.2.2",
     "next-auth": "^3.23.3",

@@ -27,18 +27,19 @@ const Home: React.FC = () => {
         {user && user.short_name ? (
           <>
             <Banner shortName={user.short_name} profession={user.profession} />
-            <About full_name={user.full_name} profession={user.profession} avatar_url={user.avatar_url}/>
+            <About full_name={user.full_name} profession={user.profession} avatar_url={user.avatar_url} />
+            <Log doc_id={user.docId} />
           </>
         ) : (
           <>
             <Banner />
             <About />
+            <Log />
           </>
         )
         }
         <Portfolio />
         <Testimonial />
-        <Log />
       </Layout>
     </div>
   )
