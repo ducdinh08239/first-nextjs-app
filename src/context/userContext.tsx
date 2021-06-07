@@ -8,7 +8,7 @@ export const UserContextProvider = ({children} ) => {
     useEffect(()=>{
         setUser(getUserFromCookie());
     }, [])
-    
+
     return (
         <UserContext.Provider value={user} >
             {children}

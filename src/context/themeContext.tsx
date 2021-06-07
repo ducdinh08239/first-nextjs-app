@@ -16,16 +16,16 @@ const ThemeContextProvider = ({ children }) => {
         })
     }
 
-const themeContextData = {
-    theme,
-    onChangeTheme
-}
+    const themeContextData = {
+        theme,
+        onChangeTheme
+    }
 
-return (
-    <ThemeContext.Provider value={themeContextData}>
-        {children}
-    </ThemeContext.Provider>
-)
+    return (
+        <ThemeContext.Provider value={themeContextData}>
+            {children}
+        </ThemeContext.Provider>
+    )
 }
 
 export default ThemeContextProvider

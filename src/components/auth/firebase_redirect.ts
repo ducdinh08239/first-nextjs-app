@@ -1,18 +1,19 @@
-import initFirebase from '../firebase/initFirebase'
-import { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from 'firebase/app'
 import 'firebase/firestore'
 import Router from 'next/router'
 import { setUserCookie, getUserFromCookie } from './userCookies'
+import { useUserContext } from '../../context/userContext'
+import { useEffect } from 'react'
 
 const googleRedirect = async () => {
-    // initFirebase();
+
     var provider = new firebase.auth.GoogleAuthProvider();
     const result = await firebase.auth().signInWithPopup(provider)
     const user = result.user
-    // console.log(firebase.auth());
+    
     if (user) {
+        
         setUserCookie(user.uid);
         // await console.log(getUserFromCookie());
         var db = firebase.firestore();
