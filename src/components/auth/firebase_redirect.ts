@@ -7,13 +7,11 @@ import { useUserContext } from '../../context/userContext'
 import { useEffect } from 'react'
 
 const googleRedirect = async () => {
-
     var provider = new firebase.auth.GoogleAuthProvider();
     const result = await firebase.auth().signInWithPopup(provider)
     const user = result.user
     
     if (user) {
-        
         setUserCookie(user.uid);
         // await console.log(getUserFromCookie());
         var db = firebase.firestore();
@@ -36,7 +34,6 @@ const googleRedirect = async () => {
             Router.push('/info-complete')
         }
     }
-    // console.log('a');
 
 }
 

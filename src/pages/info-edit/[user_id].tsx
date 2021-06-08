@@ -6,9 +6,8 @@ import 'firebase/storage'
 import updateData from '../../components/firestore/update'
 
 const InfoEdit = () => {
-
-    const user = useUserContext();
     
+    const { user } = useUserContext();
     const [userData, setUserData] = useState(user);
 
     const onChangeHandle = (e: any) => {
@@ -149,5 +148,12 @@ const InfoEdit = () => {
         </div>
     )
 }
+
+// InfoEdit.getInitialProps = async () => {
+//     // const user = await fetch('http://localhost:3000/api/user-info');
+//     // // console.log(user);
+    
+//     // return {properties: {user} }
+// }
 
 export default InfoEdit

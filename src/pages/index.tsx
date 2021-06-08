@@ -9,7 +9,7 @@ import Log from "../components/log"
 import { useUserContext } from '../context/userContext'
 
 const Home: React.FC = () => {
-  const user = useUserContext();
+  const { user } = useUserContext();
   // console.log(user, '==> index');
 
   return (
