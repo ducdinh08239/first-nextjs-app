@@ -1,33 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useUserContext } from '../../context/userContext'
 import { useRouter } from 'next/router'
 import firebase from 'firebase/app'
 import 'firebase/storage'
 import updateData from '../../components/firestore/update'
+import ReadDataFirestore from '../../components/firestore/read'
+
+interface userType {
+    uid?: string;
+    short_name?: string;
+    profession?: string;
+    full_name?: string;
+    email?: string;
+    docId?: string;
+    avatar_url?: string;
+    address?: string;
+
+}
 
 const InfoEdit = () => {
-    
+    // const { parseUserData, doc_id } = props
     const { user } = useUserContext();
-    const [userData, setUserData] = useState(user);
 
+    const [userData, setUserData] = useState<userType>({});
+    
+    useEffect(()=> {
+        if(!user){
+            return;
+        }
+        setUserData(user);
+    }, [user]);
+    
     const onChangeHandle = (e: any) => {
         setUserData({
             ...userData,
             [e.target.id]: e.target.value
         }
         );
-
     }
-
 
     const saveInfo = async (e) => {
         await e.preventDefault()
+        console.log(e);
+        
         //@ts-ignore
-        let imageValue = document.getElementById('uploadFile').files[0]
+        let imageValue = await document.getElementById('uploadFile').files[0]
         if (imageValue == undefined) {
             var entireForm = await e.target;
-            var userData = {
-                uid: user.uid,
+            var userFormData = {
+                uid: userData.uid,
                 short_name: entireForm.short_name.value,
                 full_name: entireForm.full_name.value,
                 profession: entireForm.profession.value,
@@ -35,7 +56,7 @@ const InfoEdit = () => {
                 address: entireForm.address.value,
                 avatar_url: entireForm.existedUploadFile.src
             }
-            await updateData(user.docId, userData);
+            await updateData(user.docId, userFormData);
         } else {
             const storage = firebase.storage().ref('images/' + imageValue.name);
             const task = storage.put(imageValue);
@@ -61,8 +82,8 @@ const InfoEdit = () => {
                     task.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
                         image_url = await downloadURL;
                         var entireForm = await e.target;
-                        var userData = {
-                            uid: user.uid,
+                        var userFormData = {
+                            uid: userData.uid,
                             short_name: entireForm.short_name.value,
                             full_name: entireForm.full_name.value,
                             profession: entireForm.profession.value,
@@ -70,7 +91,7 @@ const InfoEdit = () => {
                             address: entireForm.address.value,
                             avatar_url: image_url
                         }
-                        await updateData(user.docId, userData);
+                        await updateData(user.docId, userFormData);
                     });
                 }
             )
@@ -84,7 +105,6 @@ const InfoEdit = () => {
                     Edit Your Info
             </div>
                 <div className="w-full max-w-xs container mx-auto">
-
                     <hr className="mb-10" />
                     <form className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4" onSubmit={saveInfo}>
                         <div className="mb-4">
@@ -149,11 +169,12 @@ const InfoEdit = () => {
     )
 }
 
-// InfoEdit.getInitialProps = async () => {
-//     // const user = await fetch('http://localhost:3000/api/user-info');
-//     // // console.log(user);
-    
-//     // return {properties: {user} }
-// }
-
 export default InfoEdit
+
+// export const getServerSideProps = async ({ params }: any) => {
+//     const { user_id } = params;
+//     const userData = await ReadDataFirestore(user_id);
+//     const parseUserData = JSON.parse(JSON.stringify(userData))
+
+//     return { props: { parseUserData:parseUserData, doc_id: user_id } }
+// }

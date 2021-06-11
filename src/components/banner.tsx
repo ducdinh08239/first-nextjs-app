@@ -2,13 +2,13 @@ import type { VFC } from "react";
 import Image from 'next/image'
 
 interface props {
-    shortName: string
-    profession: string
+    short_name?: string
+    profession?: string
 }
 
-const Banner: VFC<any> = (props:props) => {
-    let {shortName, profession} = props
-    let userShortName = shortName ? shortName : "Duc Dinh"
+const Banner: VFC<props> = (props) => {
+    let {short_name, profession} = props
+    let userShortName = short_name ? short_name : "Duc Dinh"
     let userProfession = profession ? profession : "Some profession && ..."
     return (
         <section className="banner" id="home">

@@ -1,31 +1,11 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-const ReadFromCloudFirestore = async (uid) => {
-    if (uid != "") {
+const ReadFromCloudFirestore = async (doc_id) => {
         var db = firebase.firestore();
-        const querySnapshot = await db
-            .collection("user").where("uid", "==", uid)
-            .get()
-            querySnapshot.forEach((doc) => {
-            try {
-                firebase
-                    .firestore()
-                    .collection('users')
-                    .doc(doc.id)
-                    .onSnapshot((doc) => {
-                        doc.data();
-                    })
-            } catch (error) {
-                console.log(error);
-
-            }
-        });
-
-    } else {
-        console.log("Nothing");
-    }
-
+        const userData = await db.collection("users").doc(doc_id).get();
+        
+        return userData.data()
 }
 
 export default ReadFromCloudFirestore

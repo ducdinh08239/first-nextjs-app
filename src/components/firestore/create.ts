@@ -27,7 +27,6 @@ const WriteToCloudFirestore = async (userData) => {
             docId: newUser.id
         })
         await Router.push('/')
-        await window.location.reload()
     } catch (error) {
         console.log(error);
         alert(error)

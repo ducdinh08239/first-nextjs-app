@@ -1,16 +1,22 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
-import React from 'react'
+import React, { useMemo } from 'react'
 import Banner from "../components/banner";
 import About from "../components/about";
 import Portfolio from "../components/portfolio";
 import Testimonial from "../components/testimonial";
 import Log from "../components/log"
 import { useUserContext } from '../context/userContext'
+import { getUserFromCookie } from '../components/auth/userCookies'
 
 const Home: React.FC = () => {
-  const { user } = useUserContext();
-  // console.log(user, '==> index');
+  const { user, setUser } = useUserContext();
+  
+  useMemo(() => {
+    if (!user) {
+      setUser(getUserFromCookie());
+    }
+  }, [user])
 
   return (
     <div>
@@ -26,7 +32,7 @@ const Home: React.FC = () => {
       <Layout>
         {user && user.short_name ? (
           <>
-            <Banner shortName={user.short_name} profession={user.profession} />
+            <Banner short_name={user.short_name} profession={user.profession} />
             <About full_name={user.full_name} profession={user.profession} avatar_url={user.avatar_url} />
             <Log doc_id={user.docId} />
           </>

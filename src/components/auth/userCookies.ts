@@ -20,7 +20,7 @@ export const getUserFromCookie = () => {
 
 export const setUserCookie = (user) => {
     cookies.set('my_auth', user, {
-        expires: 1 / 24,
+        expires: 12 / 24,
     })
 }
 initFirebase();

@@ -20,12 +20,11 @@ const Update = async (docId, userData) => {
             .collection('users')
             .doc(docId).set(userData)
         console.log('sent OK');
-        await setUserCookie({
+        setUserCookie({
             ...userInfo,
             docId: docId
         })
         await Router.push('/')
-        await window.location.reload()
     } catch (error) {
         console.log(error);
         alert(error)

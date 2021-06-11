@@ -1,4 +1,4 @@
-import { useEffect, VFC } from "react";
+import { useEffect, useMemo, VFC } from "react";
 import Image from 'next/image'
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -7,12 +7,21 @@ import googleRedirect from '../../components/auth/firebase_redirect'
 import Router from 'next/router'
 import { setUserCookie, getUserFromCookie } from '../../components/auth/userCookies'
 import { useUserContext } from '../../context/userContext'
+import  router  from 'next/router'
 
 const Login: VFC = () => {
+    const { user } = useUserContext();
+    useMemo(() => {
+        if (user) {
+            router.push('/')
+        }
+    }, [])
+
     const window = {
         recaptchaVerifier: undefined,
         confirmationResult: undefined
     };
+
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible',
@@ -60,44 +69,42 @@ const Login: VFC = () => {
 
             if (querySnapshot.docs.length > 0) {
                 await Router.push('/');
-                //@ts-ignore
-                window.location.reload();
             } else {
                 Router.push('/info-complete')
             }
         }
-    
-}
 
-return (
-    <div className="text-5xl font-bold text-center container mx-auto z-50">
-        Log In With
-        <br />
-        <br />
-        <Image className="z-0 cursor-pointer" id="google-login" onClick={googleRedirect}
-            src="/images/gg_log_in.png"
-            width={290}
-            height={80}
-        />
-        <br />
+    }
+
+    return (
+        <div className="text-5xl font-bold text-center container mx-auto z-50">
+            Log In With
+            <br />
+            <br />
+            <Image className="z-0 cursor-pointer" id="google-login" onClick={googleRedirect}
+                src="/images/gg_log_in.png"
+                width={290}
+                height={80}
+            />
+            <br />
             Or
-        <br />
-        <br />
-        <div className="text-base">
-            <div id="recaptcha-container" />
-            <input type="text" name="phone_number" id="phone_number" placeholder="Enter your phone number" className="bg-gray-100 rounded" />
-            <button>
-                <a href="#" id="getcode" onClick={getCode} className="bg-gray-600 text-white">Get OTP</a>
-            </button>
             <br />
             <br />
-            <input type="text" name="opt" id="otp" placeholder="Enter your OTP" className="bg-gray-100 rounded" />
-            <button>
-                <a href="#" id="verifyWithOtp" onClick={verifyWithOtp} className="bg-gray-600 text-white">Verify</a>
-            </button>
+            <div className="text-base">
+                <div id="recaptcha-container" />
+                <input type="text" name="phone_number" id="phone_number" placeholder="Enter your phone number" className="bg-gray-100 rounded" />
+                <button>
+                    <a href="#" id="getcode" onClick={getCode} className="bg-gray-600 text-white">Get OTP</a>
+                </button>
+                <br />
+                <br />
+                <input type="text" name="opt" id="otp" placeholder="Enter your OTP" className="bg-gray-100 rounded" />
+                <button>
+                    <a href="#" id="verifyWithOtp" onClick={verifyWithOtp} className="bg-gray-600 text-white">Verify</a>
+                </button>
+            </div>
         </div>
-    </div>
-)
+    )
 }
 
 export default Login

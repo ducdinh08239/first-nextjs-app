@@ -10,6 +10,7 @@
   "dependencies": {
     "@geist-ui/react": "^2.1.5",
     "@google-cloud/storage": "^5.8.5",
+    "axios": "^0.21.1",
     "firebase": "^8.6.3",
     "firebase-admin": "^9.9.0",
     "js-cookie": "^2.2.1",

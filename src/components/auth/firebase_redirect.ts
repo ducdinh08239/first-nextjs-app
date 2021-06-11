@@ -29,7 +29,6 @@ const googleRedirect = async () => {
 
         if (querySnapshot.docs.length > 0) {
             await Router.push('/');
-            window.location.reload();
         } else {
             Router.push('/info-complete')
         }

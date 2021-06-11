@@ -1,17 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import {getUserFromCookie} from '../components/auth/userCookies'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { getUserFromCookie, setUserCookie } from '../components/auth/userCookies'
 
 export const UserContext = createContext({} as any);
 
-export const UserContextProvider = ({children} ) => {
+export const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    useEffect(()=>{
+    useMemo(() => {
         setUser(getUserFromCookie());
     }, [])
 
-
     return (
-        <UserContext.Provider value={{user, setUser}} >
+        <UserContext.Provider value={{ user, setUser }} >
             {children}
         </UserContext.Provider>
     )
