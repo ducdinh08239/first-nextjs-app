@@ -4,10 +4,12 @@ import { getUserFromCookie, setUserCookie } from '../components/auth/userCookies
 export const CartContext = createContext({} as any);
 
 export const CartContextProvider = ({ children }) => {
-    const [amount, setAmount] = useState(0)
+    const [totalAmount, setTotalAmount] = useState(0)
+
+    const [totalProduct, setTotalProduct] = useState([]);
 
     return (
-        <CartContext.Provider value={{ amount, setAmount }} >
+        <CartContext.Provider value={{ totalAmount, setTotalAmount, totalProduct, setTotalProduct }} >
             {children}
         </CartContext.Provider>
     )
