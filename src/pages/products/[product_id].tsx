@@ -29,23 +29,25 @@ const ProductDetail = ({ parseData, id }) => {
             ...parseData,
             amount: parseInt(value),
             id: id,
+            total_price: parseInt(value) * parseInt(parseData.price)
         });
         for (var i = 0; i < totalProduct.length; i++) {
             for (var k = i + 1; k < totalProduct.length; k++) {
                 if (totalProduct[i].id == totalProduct[k].id) {
                     var newAmount = totalProduct[i].amount + totalProduct[k].amount
                     totalProduct.splice(i, 1)
-                    totalProduct.splice(k-1, 1)
+                    totalProduct.splice(k - 1, 1)
                     totalProduct.push({
                         ...parseData,
                         id: id,
-                        amount: parseInt(newAmount)
-                    })
+                        amount: parseInt(newAmount),
+                        total_price: parseInt(newAmount) * parseInt(parseData.price),
+                    });
                 }
             }
         }
     };
-    
+
     const instantToCart = () => {
 
     };
