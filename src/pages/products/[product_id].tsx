@@ -6,6 +6,7 @@ import Nav from '../../components/nav'
 import { useCartContext } from '../../context/cartContext'
 import Link from "next/link";
 import Image from 'next/image'
+import Router from 'next/router'
 
 const ProductDetail = ({ parseData, id }) => {
 
@@ -24,7 +25,8 @@ const ProductDetail = ({ parseData, id }) => {
 
     const addToCart = (e) => {
         var value = e.target.parentNode.childNodes[0].childNodes[1].value;
-        setTotalAmount(totalAmount + parseInt(value))
+        setTotalAmount(parseInt(totalAmount) + parseInt(value))
+
         totalProduct.push({
             ...parseData,
             amount: parseInt(value),
@@ -34,22 +36,22 @@ const ProductDetail = ({ parseData, id }) => {
         for (var i = 0; i < totalProduct.length; i++) {
             for (var k = i + 1; k < totalProduct.length; k++) {
                 if (totalProduct[i].id == totalProduct[k].id) {
-                    var newAmount = totalProduct[i].amount + totalProduct[k].amount
+                    var newAmount = parseInt(totalProduct[i].amount) + parseInt(totalProduct[k].amount)
                     totalProduct.splice(i, 1)
                     totalProduct.splice(k - 1, 1)
                     totalProduct.push({
                         ...parseData,
                         id: id,
-                        amount: parseInt(newAmount),
-                        total_price: parseInt(newAmount) * parseInt(parseData.price),
+                        amount: newAmount,
+                        total_price: newAmount * parseInt(parseData.price),
                     });
                 }
             }
         }
-    };
 
-    const instantToCart = () => {
-
+        if (e.target.id != "addToCart") {
+            Router.push('/cart')
+        }
     };
 
     return (
@@ -62,13 +64,13 @@ const ProductDetail = ({ parseData, id }) => {
                         height={60}
                     />
                 </div>
-                <div className="nav-content flex items-center border rounded-2xl px-5 cursor-pointer">
-                    <Link href="/cart">
+                <Link href="/cart">
+                    <div className="nav-content flex items-center border rounded-2xl px-5 cursor-pointer">
                         <a href="">
                             Your Cart: {totalAmount}
                         </a>
-                    </Link>
-                </div>
+                    </div>
+                </Link>
             </Nav>
             <div className="container mx-auto">
                 <div className="text-center pt-20">
@@ -80,6 +82,7 @@ const ProductDetail = ({ parseData, id }) => {
                         />
                     </div>
                     <div className="font-bold text-3xl capitalize">{parseData.name}</div>
+                    <div className="font-medium text-2xl">{parseData.price} $</div>
                     <div className="">
                         <div className="">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-0.5 px-2 border border-blue-700 rounded" onClick={decreaseAmount}>
@@ -91,11 +94,11 @@ const ProductDetail = ({ parseData, id }) => {
                             </button>
                         </div>
 
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mr-4" onClick={addToCart}>
-                            Thêm
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded mr-4" onClick={addToCart} id="addToCart">
+                            Add to cart
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={instantToCart}>
-                            Mua
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={addToCart} id="instantToCart">
+                            Buy now
                         </button>
                     </div>
                 </div>

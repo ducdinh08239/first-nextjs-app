@@ -34,9 +34,13 @@ const Product = () => {
                         height={60}
                     />
                 </div>
-                <div className="nav-content flex items-center">
-                    Your Cart: {totalAmount}
-                </div>
+                <Link href="/cart">
+                    <div className="nav-content flex items-center border rounded-2xl px-5 cursor-pointer">
+                        <a href="">
+                            Your Cart: {totalAmount}
+                        </a>
+                    </div>
+                </Link>
             </Nav>
 
             <div className="container mx-auto">

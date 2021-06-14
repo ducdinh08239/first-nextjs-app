@@ -5,17 +5,19 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { useEffect } from 'react'
+import Link from "next/link";
 
 const Cart = () => {
-    const { totalAmount, setTotalAmount, totalProduct, setTotalProduct } = useCartContext();
-    const [totalProductPrice, setTotalProductPrice] = useState(0);
+    const { totalAmount, setTotalAmount, totalPrice, setTotalPrice, totalProduct, setTotalProduct } = useCartContext();
+    //Current item clicked
+    const [currentItem, setCurrentItem] = useState<any>({});
 
     useEffect(() => {
         var sum_total: number = 0;
         for (var i = 0; i < totalProduct.length; i++) {
             sum_total += parseInt(totalProduct[i].total_price);
         }
-        setTotalProductPrice(sum_total);
+        setTotalPrice(sum_total);
     }, [])
 
     const increaseAmount = (e) => {
@@ -32,12 +34,18 @@ const Cart = () => {
         }
     }
 
-    const removeProduct = (e) => {
-        var data_filter = totalProduct.filter(item => item.id != e.target.parentNode.id);
-        setTotalProduct(data_filter);
-        calculatePrice(e.target.parentNode.id,
-            e.target.parentNode.childNodes[3].childNodes[1].value);
+    const removeProduct = async (e) => {
+        var data_filter = await totalProduct.filter(item => item.id != e.target.parentNode.parentNode.id);
+        await setTotalProduct(data_filter);
+        setCurrentItem({
+            id: e.target.parentNode.parentNode.id,
+            value: e.target.parentNode.parentNode.childNodes[3].childNodes[1].value,
+        })
     }
+
+    useEffect(() => {
+        calculatePrice(currentItem.id, currentItem.value);
+    }, [totalProduct])
 
     const calculatePrice = (current_id, current_amount) => {
         var sum_amount: number = 0;
@@ -51,7 +59,7 @@ const Cart = () => {
             sum_total += parseInt(totalProduct[i].total_price);
         }
         setTotalAmount(sum_amount);
-        setTotalProductPrice(sum_total);
+        setTotalPrice(sum_total);
     }
 
     return (
@@ -70,58 +78,94 @@ const Cart = () => {
             </Nav>
             <div className="container mx-auto">
                 <div className="text-center pt-20">
-                    {(totalProduct !== []) ? (
-                        totalProduct.map((item, index) => {
-                            return (
-                                <>
-                                    <div className="grid grid-cols-5 mb-10 items-center" key={index} id={item.id}>
-                                        <div className="flex">
-                                            <div className="">
-                                                <Image className="rounded-2xl"
-                                                    src={item.image_url}
-                                                    width={120}
-                                                    height={150}
-                                                />
-                                            </div>
-                                            <div className="ml-10">
-                                                <div className="text-3xl font-bold capitalize text-left">{item.name}</div>
-                                                <div className="mt-3 text-xs text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-                                            </div>
-
-                                        </div>
-                                        <input type="hidden" value={item.price} name="unit_price" id="" />
-                                        <div className="mx-20 text-3xl font-bold">{item.price} $</div>
-                                        <div className="">
-                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-0.5 px-2 border border-blue-700 rounded" onClick={decreaseAmount}>
-                                                -
-                                            </button>
-                                            <input type="text" className="text-center border py-0.5 mx-1 w-10 my-4" value={item.amount} id={item.id} name="" readOnly />
-                                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-0.5 px-2 border border-blue-700 rounded" onClick={increaseAmount}>
-                                                +
-                                            </button>
-                                        </div>
-                                        <div className="mx-20 text-right text-3xl font-bold">
-                                            {item.total_price} $
-                                        </div>
-                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-0.5 px-2 border border-red-700 rounded w-2/12" onClick={removeProduct}>
-                                            x
-                                        </button>
-                                    </div>
-                                </>
-                            )
-                        })
-                    ) : (
-                        <div className="">
-                            "There are no product in the cart"
-                        </div>
-                    )
-                    }
-                </div>
-                <div className="flex justify-between font-bold text-3xl">
-                    <div className="">Total Price:</div>
-                    <div className="pr-96">
-                        {totalProductPrice} $
-                    </div>
+                    <table className="w-full">
+                        {(totalProduct.length > 0) ? (
+                            <>
+                                <thead>
+                                    <tr className="text-2xl text-gray-500">
+                                        <th className="text-left">Product</th>
+                                        <th>Unit Price</th>
+                                        <th>Amount</th>
+                                        <th className="text-right">Into Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        totalProduct.map((item, index) => {
+                                            return (
+                                                <tr className="" key={index} id={item.id}>
+                                                    <td className="flex">
+                                                        <div className="">
+                                                            <Image className="rounded-2xl"
+                                                                src={item.image_url}
+                                                                width={120}
+                                                                height={150}
+                                                            />
+                                                        </div>
+                                                        <div className="pl-10 text-left">
+                                                            <div className="text-2xl capitalize">{item.name}</div>
+                                                            <div className="mt-3 text-sm text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+                                                        </div>
+                                                    </td>
+                                                    <input type="hidden" value={item.price} name="unit_price" id="" />
+                                                    <td className="text-2xl">{item.price} $</td>
+                                                    <td className="">
+                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-0.5 px-2 border border-blue-700 rounded" onClick={decreaseAmount}>
+                                                            -
+                                                        </button>
+                                                        <input type="text" className="text-center border py-0.5 mx-1 w-10 my-4" value={item.amount} id={item.id} name="" readOnly />
+                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-0.5 px-2 border border-blue-700 rounded" onClick={increaseAmount}>
+                                                            +
+                                                        </button>
+                                                    </td>
+                                                    <td className="text-2xl text-right">
+                                                        {item.total_price} $
+                                                    </td>
+                                                    <td>
+                                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-0.5 px-2 border border-red-700 rounded w-3/12" onClick={removeProduct}>
+                                                            x
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                                <tfoot className="">
+                                    <tr className="">
+                                        {/* @ts-ignore */}
+                                        <td colSpan="3" className="text-center text-2xl font-bold">
+                                            Total Price:
+                                        </td>
+                                        <td className="text-right text-2xl font-bold">
+                                            {totalPrice} $
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr className="">
+                                        {/* @ts-ignore */}
+                                        <td colSpan="3"></td>
+                                        {/* @ts-ignore */}
+                                        <td colSpan="2" className="text-2xl font-bold">
+                                            <Link href="/checkout">
+                                                <a href="" className="rounded border px-5 py-2">
+                                                    Checkout &#8627;
+                                                </a>
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </>
+                        ) : (
+                            <>
+                                <tr className="text-2xl font-medium text-gray-400">
+                                    There are no product in the cart
+                                </tr>
+                            </>
+                        )
+                        }
+                    </table>
                 </div>
             </div>
         </div>
