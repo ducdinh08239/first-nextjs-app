@@ -43,10 +43,6 @@ const Cart = () => {
         })
     }
 
-    useEffect(() => {
-        calculatePrice(currentItem.id, currentItem.value);
-    }, [totalProduct])
-
     const calculatePrice = (current_id, current_amount) => {
         var sum_amount: number = 0;
         var sum_total: number = 0;
@@ -61,6 +57,10 @@ const Cart = () => {
         setTotalAmount(sum_amount);
         setTotalPrice(sum_total);
     }
+
+    useEffect(() => {
+        calculatePrice(currentItem.id, currentItem.value);
+    }, [totalProduct])
 
     return (
         <div>

@@ -4,13 +4,22 @@ import { getUserFromCookie, setUserCookie } from '../components/auth/userCookies
 export const UserContext = createContext({} as any);
 
 export const UserContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null)
+    const [userSession, setUserSession] = useState<any>(null);
+
     useMemo(() => {
-        setUser(getUserFromCookie());
+        if (userSession) {
+            setUserCookie(userSession);
+        }
+    }, [userSession])
+
+    useMemo(() => {
+        if(getUserFromCookie()){
+            setUserSession(getUserFromCookie());
+        }
     }, [])
 
     return (
-        <UserContext.Provider value={{ user, setUser }} >
+        <UserContext.Provider value={{ userSession, setUserSession }} >
             {children}
         </UserContext.Provider>
     )

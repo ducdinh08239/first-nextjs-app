@@ -1,10 +1,8 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import type { VFC } from "react";
-import Router from 'next/router'
-import { setUserCookie } from '../auth/userCookies'
 
 const Update = async (docId, userData) => {
+
     let userInfo = {
         uid: userData.uid,
         short_name: userData.short_name,
@@ -20,11 +18,10 @@ const Update = async (docId, userData) => {
             .collection('users')
             .doc(docId).set(userData)
         console.log('sent OK');
-        setUserCookie({
+        return {
             ...userInfo,
             docId: docId
-        })
-        await Router.push('/')
+        }
     } catch (error) {
         console.log(error);
         alert(error)

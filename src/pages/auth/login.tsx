@@ -7,15 +7,19 @@ import googleRedirect from '../../components/auth/firebase_redirect'
 import Router from 'next/router'
 import { setUserCookie, getUserFromCookie } from '../../components/auth/userCookies'
 import { useUserContext } from '../../context/userContext'
-import  router  from 'next/router'
 
 const Login: VFC = () => {
-    const { user } = useUserContext();
-    useMemo(() => {
-        if (user) {
-            router.push('/')
+    const { setUserSession } = useUserContext();
+
+    const handleRedirect = async () => {
+        const returnData = await googleRedirect();
+        await setUserSession(returnData)
+        if (typeof returnData == "string") {
+            Router.push('/info-complete');
+        } else {
+            await Router.push('/');
         }
-    }, [])
+    }
 
     const window = {
         recaptchaVerifier: undefined,
@@ -25,9 +29,6 @@ const Login: VFC = () => {
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible',
-            'callback': (response) => {
-                // reCAPTCHA solved, allow signInWithPhoneNumber.
-            }
         });
     }, [])
     var phoneNumber;
@@ -39,7 +40,7 @@ const Login: VFC = () => {
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
-                // ...
+                console.log(confirmationResult);
             }).catch((error) => {
                 console.log(error);
             });
@@ -52,18 +53,17 @@ const Login: VFC = () => {
         const result = await window.confirmationResult.confirm(code)
         const user = result.user;
         if (user) {
-            setUserCookie(user.uid);
-            // await console.log(getUserFromCookie());
+            setUserSession(user.uid);
             var db = firebase.firestore();
             const querySnapshot = await db
                 .collection("users").where("uid", "==", `${user.uid}`)
                 .get()
-            var docId;
+            var getDocId;
             querySnapshot.forEach(async (doc) => {
-                docId = doc.id
-                setUserCookie({
+                getDocId = doc.id
+                setUserSession({
                     ...doc.data(),
-                    docId: doc.id
+                    docId: getDocId
                 });
             });
 
@@ -81,7 +81,7 @@ const Login: VFC = () => {
             Log In With
             <br />
             <br />
-            <Image className="z-0 cursor-pointer" id="google-login" onClick={googleRedirect}
+            <Image className="z-0 cursor-pointer" id="google-login" onClick={handleRedirect}
                 src="/images/gg_log_in.png"
                 width={290}
                 height={80}

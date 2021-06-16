@@ -8,21 +8,16 @@ import Testimonial from "../components/testimonial";
 import Log from "../components/log"
 import { useUserContext } from '../context/userContext'
 import { getUserFromCookie } from '../components/auth/userCookies'
+import { useEffect } from 'react';
 
 const Home: React.FC = () => {
-  const { user, setUser } = useUserContext();
+  const { userSession } = useUserContext();
   
-  useMemo(() => {
-    if (!user) {
-      setUser(getUserFromCookie());
-    }
-  }, [user])
-
   return (
     <div>
       <Head>
-        {user && user.short_name ? (
-          <title>Portfolio Of {user.short_name}</title>
+        {userSession && userSession.short_name ? (
+          <title>Portfolio Of {userSession.short_name}</title>
         ) : (
           <title>Portfolio Of Someone</title>
         )}
@@ -30,11 +25,11 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {user && user.short_name ? (
+        {userSession && userSession.short_name ? (
           <>
-            <Banner short_name={user.short_name} profession={user.profession} />
-            <About full_name={user.full_name} profession={user.profession} avatar_url={user.avatar_url} />
-            <Log doc_id={user.docId} />
+            <Banner short_name={userSession.short_name} profession={userSession.profession} />
+            <About full_name={userSession.full_name} profession={userSession.profession} avatar_url={userSession.avatar_url} />
+            <Log doc_id={userSession.docId} />
           </>
         ) : (
           <>

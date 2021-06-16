@@ -4,9 +4,6 @@ import type { VFC } from "react";
 import initFirebase from '../firebase/initFirebase'
 import Router from 'next/router'
 import { setUserCookie } from '../auth/userCookies'
-
-initFirebase()
-
 const WriteToCloudFirestore = async (userData) => {
     let userInfo = {
         uid: userData.uid,
@@ -22,11 +19,10 @@ const WriteToCloudFirestore = async (userData) => {
             .firestore()
             .collection('users')
             .add(userInfo)
-        await setUserCookie({
+        return {
             ...userInfo,
             docId: newUser.id
-        })
-        await Router.push('/')
+        }
     } catch (error) {
         console.log(error);
         alert(error)
