@@ -134,8 +134,7 @@ const Cart = () => {
                                 </tbody>
                                 <tfoot className="">
                                     <tr className="">
-                                        {/* @ts-ignore */}
-                                        <td colSpan="3" className="text-center text-2xl font-bold">
+                                        <td colSpan={3} className="text-center text-2xl font-bold">
                                             Total Price:
                                         </td>
                                         <td className="text-right text-2xl font-bold">
