@@ -70,7 +70,7 @@ const Login: VFC = () => {
             if (querySnapshot.docs.length > 0) {
                 await Router.push('/');
             } else {
-                Router.push('/info-complete')
+                await Router.push('/info-complete')
             }
         }
 
