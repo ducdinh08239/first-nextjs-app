@@ -54,8 +54,7 @@ const Checkout = () => {
                     </tbody>
                     <tfoot>
                         <tr className="">
-                            {/* @ts-ignore */}
-                            <td colSpan="3" className="text-center text-2xl font-bold">
+                            <td colSpan={3} className="text-center text-2xl font-bold">
                                 Total Price:
                             </td>
                             <td className="text-right text-2xl font-bold">
@@ -64,10 +63,8 @@ const Checkout = () => {
                             <td></td>
                         </tr>
                         <tr className="">
-                            {/* @ts-ignore */}
-                            <td colSpan="3"></td>
-                            {/* @ts-ignore */}
-                            <td colSpan="1" className="text-right text-2xl font-bold cursor-pointer"onClick={removeLocalValue}>
+                            <td colSpan={3}></td>
+                            <td colSpan={1} className="text-right text-2xl font-bold cursor-pointer"onClick={removeLocalValue}>
                                 <div className="rounded border px-5 py-2">
                                     Confirm to pay &#8627;
                                 </div>

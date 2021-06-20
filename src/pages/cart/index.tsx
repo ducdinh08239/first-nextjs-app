@@ -143,10 +143,8 @@ const Cart = () => {
                                         <td></td>
                                     </tr>
                                     <tr className="">
-                                        {/* @ts-ignore */}
-                                        <td colSpan="3"></td>
-                                        {/* @ts-ignore */}
-                                        <td colSpan="2" className="text-2xl font-bold">
+                                        <td colSpan={3}></td>
+                                        <td colSpan={2} className="text-2xl font-bold">
                                             <Link href="/checkout">
                                                 <a href="" className="rounded border px-5 py-2">
                                                     Checkout &#8627;

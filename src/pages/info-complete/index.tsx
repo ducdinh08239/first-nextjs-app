@@ -13,8 +13,9 @@ const InfoComplete: VFC = () => {
 
     const infoComplete = async (e) => {
         await e.preventDefault()
-        //@ts-ignore
-        let imageValue = document.getElementById('uploadFile').files[0];
+        let imageLocation = document.getElementById('uploadFile') as HTMLInputElement;
+        let imageValue = imageLocation.files[0];
+        
         const storage = firebase.storage().ref('images/' + imageValue.name);
         const task = storage.put(imageValue);
         var image_url;

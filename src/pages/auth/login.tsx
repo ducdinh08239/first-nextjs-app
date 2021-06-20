@@ -33,8 +33,8 @@ const Login: VFC = () => {
     }, [])
     var phoneNumber;
     const getCode = async () => {
-        //@ts-ignore
-        phoneNumber = document.getElementById("phone_number").value
+        let inputPhoneLocation = document.getElementById("phone_number") as HTMLInputElement;
+        phoneNumber = inputPhoneLocation.value;
         console.log('sendding');
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
@@ -48,8 +48,8 @@ const Login: VFC = () => {
     }
 
     const verifyWithOtp = async () => {
-        //@ts-ignore
-        const code = document.getElementById("otp").value
+        let inputOtpLocation = document.getElementById("otp") as HTMLInputElement;
+        const code = inputOtpLocation.value
         const result = await window.confirmationResult.confirm(code)
         const user = result.user;
         if (user) {

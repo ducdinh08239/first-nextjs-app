@@ -41,8 +41,9 @@ const InfoEdit = () => {
 
     const saveInfo = async (e) => {
         await e.preventDefault()
-        //@ts-ignore
-        var imageValue = await document.getElementById('uploadFile').files[0];
+
+        var inputFile = document.getElementById('uploadFile') as HTMLInputElement;
+        var imageValue = inputFile.files[0];
 
         if (imageValue == undefined) {
             var entireForm = await e.target;
@@ -80,8 +81,9 @@ const InfoEdit = () => {
 
                 },
                 async () => {
-                    //@ts-ignore
-                    var imageOldValue = await document.getElementById('existedUploadFile').src;
+                    var imageLocation = document.getElementById('existedUploadFile') as HTMLInputElement;
+                    var imageOldValue = imageLocation.src;
+
                     if (imageOldValue) {
                         var originalName = (imageOldValue.split('/')[7]).split('?')[0].replace('%2F', '/');
                         var desertRef = storageRef.child(originalName);
