@@ -25,7 +25,7 @@ const Log: VFC<props> = (props) => {
                     </Link>
 
                     <div className="">
-                        <Link href={`/products`}>
+                        <Link href='/products'>
                             <a className="">
                                 <Image className="shadow-2xl" title="Other Products"
                                     src="/images/products.png"

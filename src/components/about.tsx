@@ -1,23 +1,23 @@
 import type { VFC } from "react";
 import Image from 'next/image'
 
-interface props {
+interface AboutProps {
     full_name?: string
     profession?: string
     avatar_url?: string
 }
 
-const About: VFC<any> = (props:props) => {
+const About: VFC<AboutProps> = (props: AboutProps) => {
     let {full_name, profession, avatar_url} = props
-    let userFullName = full_name ? full_name : "Full name of some one"
-    let userProfession = profession ? profession : "Some profession && ..."
-    let userAvatar = avatar_url ? avatar_url : "/images/about.jpg"
+    let userFullName = full_name || "Full name of some one"
+    let userProfession = profession || "Some profession && ..."
+    let userAvatar = avatar_url || "/images/about.jpg"
 
     return (
         <section className="about container mx-auto mt-44" id="about">
             <div className="grid grid-cols-2">
                 <div className="about-avatar">
-                    <img src={`${userAvatar}`} width="518px" height="477px" className="rounded-md" />
+                    <img src={userAvatar} width="518px" height="477px" className="rounded-md" />
                 </div>
                 <div className="about-content">
                     <div className="about-title">

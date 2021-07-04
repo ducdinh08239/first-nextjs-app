@@ -12,6 +12,7 @@ export const getUserFromCookie = () => {
     try {
         return JSON.parse(cookie)
     } catch (err) {
+        console.log(err);
         return JSON.parse(JSON.stringify(cookie))
     }
 

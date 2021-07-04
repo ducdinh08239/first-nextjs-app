@@ -6,22 +6,19 @@ import { setUserCookie } from './userCookies'
 
 const googleRedirect = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    const result = await firebase.auth().signInWithPopup(provider)
-    const user = result.user
-
-    if (user) {
+    const result = await firebase.auth().signInWithPopup(provider);
+    if(result){
+        const user = result.user
         var db = firebase.firestore();
         const data = await db
-            .collection("users").where("uid", "==", `${user.uid}`)
-            .get()
+        .collection("users").where("uid", "==", `${user.uid}`)
+        .get()
         if(data.docs.length > 0){
             return {...data.docs[0].data(),
                 docId: data.docs[0].id}
-        } else {
-            return user.uid
-        }
+            }
+        return user.uid
     }
-
 }
-
+        
 export default googleRedirect;
